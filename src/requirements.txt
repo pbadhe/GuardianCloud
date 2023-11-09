@@ -1,0 +1,9 @@
+flask
+bcrypt
+uuid
+flask_cors
+datetime
+google-auth
+google-auth-httplib2 
+google-auth-oauthlib 
+google-cloud-storage
