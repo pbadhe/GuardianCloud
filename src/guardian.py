@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
     
 # Initialize env var for service account authentication
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/GOOGLE_APPLICATION_CREDENTIALS"
+#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/GOOGLE_APPLICATION_CREDENTIALS"
 storage_client = storage.Client()
 
 # Default bucket name
