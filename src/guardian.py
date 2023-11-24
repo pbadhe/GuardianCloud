@@ -8,8 +8,7 @@ app = Flask(__name__)
 CORS(app)
     
 # Initialize env var for service account authentication
-if not os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", None):
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C://Users//badhe//Desktop//Git//ECC Guardian Cloud//guardian-cloud-general-access-key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/GOOGLE_APPLICATION_CREDENTIALS"
 storage_client = storage.Client()
 
 # Default bucket name
