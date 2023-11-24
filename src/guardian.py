@@ -8,7 +8,8 @@ app = Flask(__name__)
 CORS(app)
     
 # Initialize env var for service account authentication
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C://Users//badhe//Desktop//Git//ECC Guardian Cloud//guardian-cloud-general-access-key.json"
+if not os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", None):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C://Users//badhe//Desktop//Git//ECC Guardian Cloud//guardian-cloud-general-access-key.json"
 storage_client = storage.Client()
 
 # Default bucket name
@@ -52,4 +53,4 @@ def ssd():
 
 port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
-    app.run(threaded=True, host='0.0.0.0', port=port)
+    app.run(threaded=True, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
