@@ -1,15 +1,58 @@
 // Login.js
 
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    request: "login",
+    username: "",
+    password: "",
+  });
+
+  // State variable for error message
+  const [error, setError] = useState("");
 
   const handleSignupClick = () => {
-    // Navigate to the signup page when the signup button is clicked
     navigate("/signup");
+  };
+
+  const handleLoginClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "https://guardiancloud-jt5nilkupq-uc.a.run.app/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        // Successful login, navigate to the dashboard or set some flag to show it
+        navigate("/drive");
+      } else {
+        // Unsuccessful login, show error message
+        setError("Username or password is incorrect");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("An error occurred during login");
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   return (
@@ -25,16 +68,32 @@ const Login = () => {
       <div className="login-box">
         <h2>Login</h2>
         <form>
-          <label>Email</label>
-          <input type="email" placeholder="Enter your email" />
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleInputChange}
+            placeholder="Enter the username"
+            required
+          />
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" />
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            placeholder="Enter your password"
+            required
+          />
           <label>
             {" "}
             Don't have an account? <Link to="/signup">SignUp</Link>
           </label>
-
-          <button type="submit">Login</button>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" onClick={handleLoginClick}>
+            Login
+          </button>
         </form>
       </div>
     </div>
