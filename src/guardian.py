@@ -71,4 +71,4 @@ def ssd():
 
 port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
-    app.run(threaded=True, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    app.run(threaded=True, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)), ssl_context="adhoc")
