@@ -1,18 +1,22 @@
-import os
+import os, constants
 from flask import Flask, Response, request, jsonify, render_template
 from flask_cors import CORS 
+from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import storage
-
+from login import login, userExists, createUser
 
 app = Flask(__name__)
 CORS(app)
-    
-# Initialize env var for service account authentication
-#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/GOOGLE_APPLICATION_CREDENTIALS"
+
+# Local Testing: Initialize env var for service account authentication, else comment it
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = constants.GOOGLE_APP_CREDENTIALS
 storage_client = storage.Client()
 
-# Default bucket name
-DEFAULT_BUCKET_NAME = "guardiancloud"
+# Local Testing: Initialize firebase db authentication for local testing, else simply initialize_app()
+cred = credentials.Certificate(constants.FIRESTORE_CREDENTIALS)
+default_app = initialize_app(cred)
+
+db = firestore.client()
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -23,7 +27,7 @@ def upload_file():
     if file.filename == '':
         return 'No selected file'
 
-    bucket_name = DEFAULT_BUCKET_NAME
+    bucket_name = constants.DEFAULT_BUCKET_NAME
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(file.filename)
 
@@ -33,7 +37,7 @@ def upload_file():
 
 @app.route('/download/<filename>')
 def download_file(filename):
-    bucket_name = DEFAULT_BUCKET_NAME
+    bucket_name = constants.DEFAULT_BUCKET_NAME
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(filename)
 
@@ -44,6 +48,21 @@ def download_file(filename):
         return response
     else:
         return 'File not found'
+
+@app.route('/login',methods=['GET', 'POST'])
+def login1():
+    if request.method == 'POST':
+        # {"request":"login", "username": "clark", "password": "clark" }
+        if request.json['request'] == 'login':
+            return login(db, request.json)
+        
+        # {"request":"ifexists", "username": "clark" }
+        if request.json['request'] == 'ifexists':
+            return jsonify({"User Exists": userExists(db, request.json["username"])}), 200
+        
+        # {"request":"signup", "name": "Clark Kent", "email": "clark@kent.com", "username": "clark", "password": "clark"}
+        if request.json['request'] == 'signup':
+            return createUser(db, request.json)
 
 
 @app.route('/',methods=['GET', 'POST'])
