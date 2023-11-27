@@ -336,6 +336,329 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "CRUD",
+			"item": [
+				{
+					"name": "Upload",
+					"protocolProfileBehavior": {
+						"strictSSL": false,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "bread.jpg",
+									"type": "file",
+									"src": "/C:/Users/badhe/Downloads/bread.jpg"
+								},
+								{
+									"key": "filepath",
+									"value": "/newtest/bread.jpg",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "clark",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5000/upload",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"upload"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Upload example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "bread.jpg",
+											"type": "file",
+											"src": "/C:/Users/badhe/Downloads/bread.jpg"
+										},
+										{
+											"key": "filepath",
+											"value": "/newtest/bread.jpg",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "clark",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://localhost:5000/upload",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"upload"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 27 Nov 2023 01:40:27 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "File uploaded successfully"
+						}
+					]
+				},
+				{
+					"name": "Download getfileurl",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"request\": \"getfileurl\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/download",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"download"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Download getfileurl",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"request\": \"getfileurl\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/download",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"download"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 27 Nov 2023 07:54:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "851"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileurl\": \"https://storage.googleapis.com/guardiancloud/clark/newtest/bread.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=general-access%40guardian-cloud-403702.iam.gserviceaccount.com%2F20231127%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231127T075421Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=947edd989bfed87ec4b46368f2289bbb2bda2d3971cf99ddb1e5d203f802f5ec903b00565025c58ee1089a71325eca8fe661ad9691385a810f02348b7ece3c5d497921978128237da2b55ab8c99182f1a7024f0ad1f195abf1b2921ea6583a6af045396d16f946df34cb93560b814e8f0e7415857f9fc02cf978137a63c4e2c035138d067b839102495294ca6b1e601575b49f9c281a19c3ec9e7480fc099f9acadaab495bc7803847a0d3565dc1ea543a698a57530828d9e12573c90d233236e8aaa5f7b9b5df6b1d454b76bafd44fdc2f19f90f26ff6eed50acdd4ea4dd3034c543b23f107528ef4b1037203384c7fc18d02594d72ac1a195dff3f06084cf3\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Download downloadfile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"request\": \"downloadfile\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/download",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"download"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List (hierarchy of pwd)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/\" \r\n    // The filepath should start and end with a slash\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/list",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"list"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List via filepath",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/\" \r\n    // The filepath should start and end with a slash\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/list",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"list"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 27 Nov 2023 08:59:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"files\": [\n        \"bread.jpg\",\n        \"code.txt\"\n    ],\n    \"folders\": [\n        \"Fax\"\n    ]\n}"
+						}
+					]
+				}
+			]
 		}
 	]
 }
