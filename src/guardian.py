@@ -5,6 +5,7 @@ from flask_cors import CORS
 from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import storage
 from login import login, userExists, createUser
+from google.cloud.exceptions import NotFound
 
 app = Flask(__name__)
 CORS(app)
@@ -140,6 +141,39 @@ def login1():
         # }
         if request.json['request'] == 'signup':
             return createUser(db, request.json)
+
+
+@app.route('/delete', methods=['POST'])
+def delete_file_or_folder():
+    if request.method == 'POST':
+        # Expects a JSON payload with username and filepath
+        # {
+        #   "username": "clark", 
+        #   "filepath": "/newtest/bread.jpg"
+        # }
+
+        try:
+            # Construct the full path to the file or folder
+            full_path = str(request.json.get('username') + request.json.get('filepath'))
+            
+            # Check if the file or folder exists
+            blob = bucket.blob(full_path)
+            if not blob.exists():
+                return 'File or folder not found', 404
+
+            # Delete the file or folder
+            blob.delete()
+
+            return 'File or folder deleted successfully', 200
+
+        except NotFound:
+            return 'File or folder not found', 404
+        except Exception as e:
+            print(e)
+            return 'Error deleting file or folder', 500
+    else:
+        return 'POST request expected', 400
+
 
 
 @app.route('/',methods=['GET', 'POST'])
