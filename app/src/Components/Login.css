@@ -69,7 +69,7 @@ label {
   margin-bottom: 8px;
 }
 
-input {
+.login_input {
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;

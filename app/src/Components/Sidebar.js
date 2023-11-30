@@ -2,13 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import SideBarList from "./SideBarList";
 import TabletAndroidIcon from "@mui/icons-material/TabletAndroid";
+import { useDispatch } from "react-redux";
+import { setBoolean } from "../features/Bool/boolSlice";
 
 function Sidebar() {
+  const dispatch = useDispatch();
   return (
     <Container>
       <Wrapper>
-        <Newchannel>
-          <span>New</span>
+        <Newchannel onClick={() => dispatch(setBoolean({ modelBools: true }))}>
+          <span onClick={() => dispatch(setBoolean({ modelBools: true }))}>
+            New
+          </span>
         </Newchannel>
         <div>
           <SideBarList Icon={<TabletAndroidIcon />} title="Channels" />

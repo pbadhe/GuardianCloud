@@ -1,16 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import FileList from "./FileList";
+import FileContainer from "./FileContainer";
+import { useDispatch } from "react-redux";
+import { setBoolean } from "../features/Bool/boolSlice";
 
 function Drive() {
+  const dispatch = useDispatch();
   return (
-    <Container>
+    <Container onClick={() => dispatch(setBoolean({ modelBools: false }))}>
       <Title>
         <span>My Guardian</span>
         <ArrowDropDownIcon />
       </Title>
       <FileContent>
         <SemiTitle>Suggested</SemiTitle>
+        <GridContainer>
+          <FileList />
+        </GridContainer>
+        <Margin>
+          <SemiTitle>Folder</SemiTitle>
+
+          <GridContainer>
+            <FileContainer />
+          </GridContainer>
+        </Margin>
       </FileContent>
     </Container>
   );
@@ -76,10 +91,17 @@ const FileContent = styled.div`
   }
 `;
 
-const SemiTitle = styled.div``;
+const SemiTitle = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: #5f6368;
+`;
 
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 20px 0;
 `;
+
+const Margin = styled.div``;

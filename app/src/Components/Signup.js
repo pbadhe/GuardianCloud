@@ -120,6 +120,7 @@ const Signup = () => {
         <form onSubmit={handleSignupSubmit}>
           <label>Name</label>
           <input
+            className="signup_input"
             type="text"
             name="name"
             value={formData.name}
@@ -129,6 +130,7 @@ const Signup = () => {
           />
           <label>Username</label>
           <input
+            className="signup_input"
             type="text"
             name="username"
             value={formData.username}
@@ -138,6 +140,7 @@ const Signup = () => {
           />
           <label>Email</label>
           <input
+            className="signup_input"
             type="email"
             name="email"
             value={formData.email}
@@ -147,6 +150,7 @@ const Signup = () => {
           />
           <label>Password</label>
           <input
+            className="signup_input"
             type="password"
             name="password"
             value={formData.password}
@@ -156,6 +160,7 @@ const Signup = () => {
           />
           <label> Confirm Password</label>
           <input
+            className="signup_input"
             type="password"
             name="confirmPassword"
             value={formData.confirmPassword}

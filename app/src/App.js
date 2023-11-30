@@ -13,6 +13,10 @@ import Sidebar from "./Components/Sidebar";
 import Drive from "./Components/Drive";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
+import Model from "./Components/Model";
+import FolderModel from "./Components/FolderModel";
+import PhotoModel from "./Components/PhotoModel";
+import PhotoDisplay from "./Components/photoDisplay";
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
         <Route path="/drive" element={<DriveComponent />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      <Model />
+      <PhotoModel />
+      <FolderModel />
+      <PhotoDisplay />
     </Router>
   );
 }
