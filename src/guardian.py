@@ -114,11 +114,14 @@ def download_file():
         # }
         # Generates a temporary signed URL for downloading a file.
         if request.json['request'] == 'getfileurl':
-            url = blob.generate_signed_url(
+            try:
+                url = blob.generate_signed_url(
                 version="v4",
                 expiration=datetime.timedelta(minutes=15),
                 method="GET",
             )
+            except Exception as e:
+                print(e)
             return jsonify({"fileurl": url}), 200
         
         # {
