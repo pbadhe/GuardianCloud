@@ -21,6 +21,30 @@ default_app = initialize_app(cred)
 
 db = firestore.client()
 
+@app.route('/createfolder', methods=['POST'])
+def createfolder():
+    if request.method == 'POST':
+        # {
+        #   "username": "clark", 
+        #   "filepath": "/create/newfolder/" 
+        # }
+
+        if (username:= request.json.get('username', '')) == '':
+            return 'Username not found', 400
+        
+        if (filepath:= request.json.get('filepath', '')) == '':
+            return 'Incorrect path or filename', 400
+        
+        filepath = filepath if filepath.endswith("/") else filepath + "/"
+
+        try:
+            blob = bucket.blob(username + filepath)
+            blob.upload_from_string("")
+            return "Folder created successfully", 200
+        except:
+            return "Error! Check the passed username and filepath", 404
+    else:
+        return 'POST request expected', 400
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
