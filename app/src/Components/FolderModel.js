@@ -2,26 +2,54 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFolderBool, setBoolean } from "../features/Bool/boolSlice";
+import { useLocation } from "react-router-dom";
+import { selectUid } from "../features/user/userSlice";
+import { setDrive } from "../features/DriveState/DriveState";
 
 function FolderModel() {
   const folderBool = useSelector(selectFolderBool);
   const dispatch = useDispatch();
   const [folderNames, setFolderNames] = useState("");
   const [loading, setLoading] = useState(false);
+  const uid = useSelector(selectUid);
+  const location = useLocation();
+  const currenturl = location.pathname;
+
+  const modifiedUrl = currenturl.replace("/drive", "");
 
   const Submit = async (e) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
     if (folderNames.length < 1) return;
-
-    //write logic or call the api to create folder.
-
+    try {
+      console.log(modifiedUrl + folderNames);
+      const response = await fetch(
+        "https://guardiancloud-jt5nilkupq-uc.a.run.app/createfolder",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: "sdiware13",
+            filepath: modifiedUrl + folderNames,
+          }),
+        }
+      );
+      if (response.ok) {
+        dispatch(setDrive({ timestamp: new Date().getTime() }));
+        console.log("folder created");
+      } else {
+        console.log("not created");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
     setLoading(false);
     dispatch(setBoolean({ folderBool: false }));
     setFolderNames("");
   };
-
   return (
     <Container folder={folderBool}>
       <Wrapper onSubmit={Submit}>

@@ -1,13 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FileList from "./FileList";
 import FileContainer from "./FileContainer";
-import { useDispatch } from "react-redux";
+import FileShowContainer from "./FileShowContainer";
+import { useDispatch, useSelector } from "react-redux";
 import { setBoolean } from "../features/Bool/boolSlice";
+import { selectUid } from "../features/user/userSlice";
+import { useLocation } from "react-router-dom";
+import { selectDrive } from "../features/DriveState/DriveState";
 
 function Drive() {
   const dispatch = useDispatch();
+  const [folders, setFolders] = useState([]);
+  const [files, setFiles] = useState([]);
+  const uid = useSelector(selectUid);
+  const timestamp = useSelector(selectDrive);
+
+  const location = useLocation();
+  const currentURL = location.pathname.replace("/drive", "");
+
+  console.log("location:", location.pathname);
+  console.log("current:", currentURL);
+
+  useEffect(() => {
+    fetchData();
+  }, [timestamp]);
+
+  const fetchData = async () => {
+    console.log("loading");
+    try {
+      const response = await fetch(
+        "https://guardiancloud-jt5nilkupq-uc.a.run.app/list",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: uid,
+            filepath: currentURL,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("got files");
+        const data = await response.json();
+        console.log(data);
+        setFolders(data.folders);
+        setFiles(data.files);
+      } else {
+        console.log("not response okay");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    console.log("complete");
+  }, [uid, location]);
+
   return (
     <Container onClick={() => dispatch(setBoolean({ modelBools: false }))}>
       <Title>
@@ -17,13 +72,24 @@ function Drive() {
       <FileContent>
         <SemiTitle>Suggested</SemiTitle>
         <GridContainer>
-          <FileList />
+          {files?.map((data) => {
+            return <FileList />;
+          })}
         </GridContainer>
         <Margin>
           <SemiTitle>Folder</SemiTitle>
-
           <GridContainer>
-            <FileContainer />
+            {folders?.map((data) => (
+              <FileContainer title={data} />
+            ))}
+          </GridContainer>
+        </Margin>
+        <Margin>
+          <SemiTitle>Files</SemiTitle>
+          <GridContainer>
+            {files?.map((data) => (
+              <FileShowContainer title={data} />
+            ))}
           </GridContainer>
         </Margin>
       </FileContent>
@@ -38,8 +104,8 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 15px 30px;
 `;
+//padding: 15px 30px; in container before edit
 
 const Title = styled.div`
   display: flex;

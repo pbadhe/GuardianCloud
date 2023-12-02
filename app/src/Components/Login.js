@@ -41,7 +41,7 @@ const Login = () => {
         // Successful login, navigate to the dashboard or set some flag to show it
 
         dispatch(setLogIn({ uid: formData.username }));
-        navigate("/drive");
+        navigate("/drive/");
       } else {
         // Unsuccessful login, show error message
         dispatch(setLogOut({ uid: null, photo: null }));

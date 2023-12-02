@@ -7,6 +7,7 @@ import { setBoolean } from "../features/Bool/boolSlice";
 
 function Sidebar() {
   const dispatch = useDispatch();
+
   return (
     <Container>
       <Wrapper>

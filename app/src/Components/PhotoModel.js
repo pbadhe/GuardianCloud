@@ -10,8 +10,12 @@ function PhotoModel() {
   const ImageRef = useRef(null);
 
   const Photo = useSelector(selectPhotoBool);
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  const Submit = (e) => {
+    e.preventDefault();
+  };
 
   const SelectImages = (e) => {
     const Reader = new FileReader();

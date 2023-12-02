@@ -17,36 +17,39 @@ import Model from "./Components/Model";
 import FolderModel from "./Components/FolderModel";
 import PhotoModel from "./Components/PhotoModel";
 import PhotoDisplay from "./Components/photoDisplay";
+import { Layout } from "./Layout/Layout";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/drive" element={<DriveComponent />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-      <Model />
-      <PhotoModel />
-      <FolderModel />
-      <PhotoDisplay />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/drive/*" element={<Drive />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+        <Model />
+        <PhotoModel />
+        <FolderModel />
+        <PhotoDisplay />
+      </Layout>
     </Router>
   );
 }
 
-function DriveComponent() {
-  const location = useLocation();
+// function DriveComponent() {
+//   const location = useLocation();
 
-  return (
-    <>
-      {location.pathname === "/drive" && <Header />}
-      <Container>
-        <Sidebar />
-        <Drive />
-      </Container>
-    </>
-  );
-}
+//   return (
+//     <>
+//       {location.pathname === "/drive" && <Header />}
+//       <Container>
+//         <Sidebar />
+//         <Drive />
+//       </Container>
+//     </>
+//   );
+// }
 
 export default App;
 
