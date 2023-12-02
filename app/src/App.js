@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 //import './App.css';
 import styled from "styled-components";
 import Header from "./Components/Header";
@@ -18,6 +18,8 @@ import FolderModel from "./Components/FolderModel";
 import PhotoModel from "./Components/PhotoModel";
 import PhotoDisplay from "./Components/photoDisplay";
 import { Layout } from "./Layout/Layout";
+import { useSelector } from "react-redux";
+import { selectUid } from "./features/user/userSlice";
 
 function App() {
   return (

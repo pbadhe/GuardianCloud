@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  uid: null,
-  photo: null,
+  uid: localStorage.getItem("uid") || null,
+  photo: localStorage.getItem("photo") || null,
 };
 
 const UserSlice = createSlice({
@@ -12,10 +12,14 @@ const UserSlice = createSlice({
     setLogIn: (state, action) => {
       state.uid = action.payload.uid;
       state.photo = action.payload.photo;
+      localStorage.setItem("uid", action.payload.uid);
+      localStorage.setItem("photo", action.payload.photo);
     },
     setLogOut: (state) => {
       state.uid = null;
       state.photo = null;
+      localStorage.removeItem("uid");
+      localStorage.removeItem("photo");
     },
   },
 });

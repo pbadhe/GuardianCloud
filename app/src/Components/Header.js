@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AppsIcon from "@mui/icons-material/Apps";
 import { Avatar } from "@mui/material";
+import "./Header.css";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUid, setLogOut } from "../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    dispatch(setLogOut({ uid: null }));
+    navigate("/");
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -29,7 +41,12 @@ function Header() {
           </LeftSection>
           <RightSection>
             <AppsIcon className="app" />
-            <Avatar />
+            <div className="dropdown">
+              <Avatar className=".dropbtn" />
+              <div className="dropdown-content">
+                <a onClick={handleLogoutClick}>Logout</a>
+              </div>
+            </div>
           </RightSection>
         </RightContainer>
       </Wrapper>
