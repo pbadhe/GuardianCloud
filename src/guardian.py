@@ -170,7 +170,7 @@ def login1():
             return createUser(db, request.json)
 
 
-@app.route('/delete', methods=['POST'])
+@app.route('/deletefile', methods=['POST'])
 def delete_file_or_folder():
     if request.method == 'POST':
         # Expects a JSON payload with username and filepath
@@ -201,6 +201,23 @@ def delete_file_or_folder():
     else:
         return 'POST request expected', 400
 
+@app.route('/deletefolder', methods=['POST'])
+def deletefilesrecursive():
+    if request.method == 'POST':
+        # {
+        #   "username": "clark", 
+        #   "filepath": "/newtest/" 
+        # }
+        pfix = request.json['username']+request.json['filepath']
+        try:
+            blobs = storage_client.list_blobs(
+            constants.DEFAULT_BUCKET_NAME, 
+            prefix=pfix)
+            bucket.delete_blobs(list(blobs))
+        except:
+            return "Error! Check the passed username and filepath", 404
+            
+    return "Deletion successful", 200 
 
 
 @app.route('/',methods=['GET', 'POST'])
