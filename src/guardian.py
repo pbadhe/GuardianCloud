@@ -83,10 +83,11 @@ def downloadfiles():
         #   "username": "clark", 
         #   "filepath": "/newtest/" 
         # }
+        predirectory = request.json['username']+request.json['filepath']
         try:
             blobs = storage_client.list_blobs(
             constants.DEFAULT_BUCKET_NAME, 
-            prefix=request.json['username']+request.json['filepath'], 
+            prefix=predirectory, 
             delimiter="/")  # "/" delim is used to return hierarchy of pwd
         except:
             return "Error! Check the passed username and filepath", 404
@@ -94,7 +95,8 @@ def downloadfiles():
         files = []
         folders = []
         for blob in blobs:
-            files.append(blob.name.split("/")[-1])
+            if blob.name != predirectory:
+                files.append(blob.name.split("/")[-1])
 
         for prefix in blobs.prefixes:
             folders.append(str(prefix).split("/")[-2])
