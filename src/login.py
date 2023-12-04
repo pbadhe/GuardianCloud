@@ -41,3 +41,35 @@ def userExists(db, login_username):
         if login_username == doc.to_dict().get('username', None):
             return True
     return False
+
+
+def get_user_details(db,request):
+    if request.method == 'POST':
+        # Assuming you are passing the username in the request body
+        username = request.json.get('username', '')
+
+        if not username:
+            return jsonify({"success": False, "message": "Username not provided"}), 400
+
+        user_details = get_user_details_from_db(db,username)
+
+        if user_details:
+            return jsonify({"success": True, "user_details": user_details}), 200
+        else:
+            return jsonify({"success": False, "message": "User not found"}), 404
+    else:
+        return jsonify({"success": False, "message": "POST request expected"}), 400
+
+def get_user_details_from_db(db,username):
+    # Assuming 'Login' is the collection in Firestore where user data is stored
+    user_ref = db.collection('Login').document(username)
+    user_data = user_ref.get()
+
+    if user_data.exists:
+        user_details = {
+            "username": user_data.get("username"),
+            "email": user_data.get("email")
+        }
+        return user_details
+    else:
+        return None

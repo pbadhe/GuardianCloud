@@ -4,7 +4,7 @@ from flask import Flask, Response, request, jsonify, render_template, send_file
 from flask_cors import CORS 
 from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import storage
-from login import login, userExists, createUser
+from login import login, userExists, createUser,get_user_details
 from google.cloud.exceptions import NotFound
 
 app = Flask(__name__)
@@ -83,10 +83,11 @@ def downloadfiles():
         #   "username": "clark", 
         #   "filepath": "/newtest/" 
         # }
+        predirectory = request.json['username']+request.json['filepath']
         try:
             blobs = storage_client.list_blobs(
             constants.DEFAULT_BUCKET_NAME, 
-            prefix=request.json['username']+request.json['filepath'], 
+            prefix=predirectory, 
             delimiter="/")  # "/" delim is used to return hierarchy of pwd
         except:
             return "Error! Check the passed username and filepath", 404
@@ -94,7 +95,8 @@ def downloadfiles():
         files = []
         folders = []
         for blob in blobs:
-            files.append(blob.name.split("/")[-1])
+            if blob.name != predirectory:
+                files.append(blob.name.split("/")[-1])
 
         for prefix in blobs.prefixes:
             folders.append(str(prefix).split("/")[-2])
@@ -170,7 +172,12 @@ def login1():
             return createUser(db, request.json)
 
 
-@app.route('/delete', methods=['POST'])
+@app.route('/getuserdetails', methods=['POST'])
+def getuserdetails():
+     if request.json['request'] == "getusername":
+        return get_user_details(db,request)
+
+@app.route('/deletefile', methods=['POST'])
 def delete_file_or_folder():
     if request.method == 'POST':
         # Expects a JSON payload with username and filepath
@@ -200,6 +207,24 @@ def delete_file_or_folder():
             return 'Error deleting file or folder', 500
     else:
         return 'POST request expected', 400
+
+@app.route('/deletefolder', methods=['POST'])
+def deletefilesrecursive():
+    if request.method == 'POST':
+        # {
+        #   "username": "clark", 
+        #   "filepath": "/newtest/" 
+        # }
+        pfix = request.json['username']+request.json['filepath']
+        try:
+            blobs = storage_client.list_blobs(
+            constants.DEFAULT_BUCKET_NAME, 
+            prefix=pfix)
+            bucket.delete_blobs(list(blobs))
+        except:
+            return "Error! Check the passed username and filepath", 404
+            
+    return "Deletion successful", 200 
 
 
 
