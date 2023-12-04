@@ -4,7 +4,7 @@ from flask import Flask, Response, request, jsonify, render_template, send_file
 from flask_cors import CORS 
 from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import storage
-from login import login, userExists, createUser
+from login import login, userExists, createUser,get_user_details
 from google.cloud.exceptions import NotFound
 
 app = Flask(__name__)
@@ -172,6 +172,11 @@ def login1():
             return createUser(db, request.json)
 
 
+@app.route('/getuserdetails', methods=['POST'])
+def getuserdetails():
+     if request.json['request'] == "getusername":
+        return get_user_details(db,request)
+
 @app.route('/deletefile', methods=['POST'])
 def delete_file_or_folder():
     if request.method == 'POST':
@@ -220,6 +225,7 @@ def deletefilesrecursive():
             return "Error! Check the passed username and filepath", 404
             
     return "Deletion successful", 200 
+
 
 
 @app.route('/',methods=['GET', 'POST'])
