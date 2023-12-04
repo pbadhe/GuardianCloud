@@ -1,3 +1,12 @@
+.dropbtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
 .dropdown {
   position: relative;
   display: inline-block;

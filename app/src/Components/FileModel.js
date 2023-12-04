@@ -1,22 +1,22 @@
 import React, { useRef, useState } from "react";
-import { CameraAlt, Close } from "@mui/icons-material";
+import { AttachFile, Close } from "@mui/icons-material";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPhotoBool, setBoolean } from "../features/Bool/boolSlice";
-import { selectUid } from "../features/user/userSlice";
+import { selectFileBool, setBoolean } from "../features/Bool/boolSlice";
 import { setDrive } from "../features/DriveState/DriveState";
+import { selectUid } from "../features/user/userSlice";
 import { useLocation } from "react-router-dom";
 
-function PhotoModel() {
+function FileModel() {
+  const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const ImageRef = useRef(null);
-  const uid = useSelector(selectUid);
-  const location = useLocation();
+  const FileRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
-
-  const Photo = useSelector(selectPhotoBool);
+  const location = useLocation();
+  const File = useSelector(selectFileBool);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const uid = useSelector(selectUid);
   const currentURL = location.pathname;
   const modifiedurl = currentURL.replace("/drive", "");
 
@@ -30,11 +30,6 @@ function PhotoModel() {
       formData.append(selectedFile.name, selectedFile);
       formData.append("filepath", modifiedurl + selectedFile.name);
       formData.append("username", uid);
-
-      console.log("uid", uid);
-      console.log("filepath:", modifiedurl + selectedFile.name);
-      console.log("formdata", formData);
-      console.log("name", selectedFile.name);
 
       const response = await fetch(
         "https://guardiancloud-jt5nilkupq-uc.a.run.app/upload",
@@ -53,9 +48,8 @@ function PhotoModel() {
       console.error("Error during login:", error);
     }
     setLoading(false);
-
-    setSelectedFile(null);
     setSelectedImage(null);
+    setSelectedFile(null);
     dispatch(setBoolean({ photo: false }));
   };
 
@@ -75,40 +69,40 @@ function PhotoModel() {
   };
 
   return (
-    <Container show={Photo}>
+    <Container show={File}>
       <CloseIcon>
-        <Close onClick={() => dispatch(setBoolean({ photo: false }))} />
+        <Close onClick={() => dispatch(setBoolean({ file: false }))} />
       </CloseIcon>
       <Wrapper>
-        <ImageContainer>
+        <FileContainer>
           {selectedImage ? (
-            <img src={selectedImage} alt="" />
+            <div className="fileshow" style={{ overflow: "hidden" }}>
+              <pre>{selectedImage}</pre>
+            </div>
           ) : (
-            <CameraContainer>
-              <CameraAlt onClick={() => ImageRef.current.click()} />
-            </CameraContainer>
+            <PaperclipContainer>
+              <AttachFile onClick={() => FileRef.current.click()} />
+            </PaperclipContainer>
           )}
-          <input type="file" hidden ref={ImageRef} onChange={SelectFiles} />
-        </ImageContainer>
+          <input type="file" hidden ref={FileRef} onChange={SelectFiles} />
+        </FileContainer>
         {/* <TextContainer>
           <input
             type="text"
-            placeholder="Enter photo Title"
+            placeholder="Enter file name"
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
         </TextContainer> */}
         <ButtonContainer>
-          <button onClick={Submit} disabled={loading}>
-            {loading ? "Submitting..." : "Submit"}
-          </button>
+          <button onClick={Submit}>Submit</button>
         </ButtonContainer>
       </Wrapper>
     </Container>
   );
 }
 
-export default PhotoModel;
+export default FileModel;
 
 const Container = styled.div`
   z-index: 9999;
@@ -133,16 +127,10 @@ const Wrapper = styled.form`
   z-index: 999;
 `;
 
-const ImageContainer = styled.div`
+const FileContainer = styled.div`
   height: 50%;
   margin-bottom: 20px;
   width: 100%;
-  img {
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-  }
 `;
 
 const TextContainer = styled.div`
@@ -153,6 +141,7 @@ const TextContainer = styled.div`
     display: flex;
     border: none;
     font-size: 18px;
+    text-transform: capitalize;
     width: 100%;
     border: none;
     :focus {
@@ -185,7 +174,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const CameraContainer = styled.div`
+const PaperclipContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

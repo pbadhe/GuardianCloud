@@ -1,0 +1,16 @@
+.custom-context-menu {
+  position: fixed;
+  background-color: #a7c7e7;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.custom-context-menu div {
+  padding: 8px 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.custom-context-menu div:last-child {
+  border-bottom: none;
+}

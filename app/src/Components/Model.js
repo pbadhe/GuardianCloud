@@ -17,6 +17,12 @@ function Model() {
           </Wraps>
         </Header>
         <Header>
+          <Wraps onClick={() => dispatch(setBoolean({ file: true }))}>
+            <AddPhotoAlternate />
+            <span>File</span>
+          </Wraps>
+        </Header>
+        <Header>
           <Wraps onClick={() => dispatch(setBoolean({ photo: true }))}>
             <AddPhotoAlternate />
             <span>Photo</span>

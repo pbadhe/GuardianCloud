@@ -10,11 +10,9 @@ const localStorageMiddleware = (store) => (next) => (action) => {
 
   // Update localStorage based on the state changes
   const state = store.getState();
-  console.log("uid read from state:", state.user.uid);
 
   localStorage.setItem("uid", state.user.uid);
   localStorage.setItem("photo", state.user.photo);
-  console.log("Updated uid in localStorage:", state.user.uid);
 
   return result;
 };

@@ -20,15 +20,11 @@ function Drive() {
   const location = useLocation();
   const currentURL = location.pathname.replace("/drive", "");
 
-  console.log("location:", location.pathname);
-  console.log("current:", currentURL);
-
   useEffect(() => {
     fetchData();
   }, [timestamp]);
 
   const fetchData = async () => {
-    console.log("loading");
     try {
       const response = await fetch(
         "https://guardiancloud-jt5nilkupq-uc.a.run.app/list",
@@ -47,7 +43,7 @@ function Drive() {
       if (response.ok) {
         console.log("got files");
         const data = await response.json();
-        console.log(data);
+
         setFolders(data.folders);
         setFiles(data.files);
       } else {
@@ -60,22 +56,24 @@ function Drive() {
 
   useEffect(() => {
     fetchData();
-    console.log("complete");
   }, [uid, location]);
 
   return (
-    <Container onClick={() => dispatch(setBoolean({ modelBools: false }))}>
+    <Container
+      onClick={() => {
+        dispatch(setBoolean({ modelBools: false }));
+      }}>
       <Title>
         <span>My Guardian</span>
         <ArrowDropDownIcon />
       </Title>
       <FileContent>
-        <SemiTitle>Suggested</SemiTitle>
+        {/* <SemiTitle>Suggested</SemiTitle>
         <GridContainer>
           {files?.map((data) => {
             return <FileList />;
           })}
-        </GridContainer>
+        </GridContainer> */}
         <Margin>
           <SemiTitle>Folder</SemiTitle>
           <GridContainer>
@@ -113,6 +111,7 @@ const Title = styled.div`
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding-bottom: 13px;
+  margin-top: 20px;
 
   svg {
     margin-left: 10px;
@@ -166,7 +165,7 @@ const SemiTitle = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 20px 0;
 `;
 

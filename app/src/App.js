@@ -20,6 +20,7 @@ import PhotoDisplay from "./Components/photoDisplay";
 import { Layout } from "./Layout/Layout";
 import { useSelector } from "react-redux";
 import { selectUid } from "./features/user/userSlice";
+import FileModel from "./Components/FileModel";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <PhotoModel />
         <FolderModel />
         <PhotoDisplay />
+        <FileModel />
       </Layout>
     </Router>
   );

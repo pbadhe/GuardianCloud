@@ -32,7 +32,7 @@ function FolderModel() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: "sdiware13",
+            username: uid,
             filepath: modifiedUrl + folderNames,
           }),
         }
@@ -52,6 +52,7 @@ function FolderModel() {
   };
   return (
     <Container folder={folderBool}>
+      <div></div>
       <Wrapper onSubmit={Submit}>
         <Title>New Folder</Title>
         <InputContainer>
@@ -104,6 +105,7 @@ const Wrapper = styled.div`
 const Title = styled.span`
   font-size: 20px;
   margin: 20px;
+  margin-top: 20px;
 `;
 
 const InputContainer = styled.div`
@@ -141,5 +143,17 @@ const Button = styled.div`
 
   .create {
     background-color: #3b82f6;
+  }
+`;
+const CloseIcon = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  svg {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    color: white;
   }
 `;
