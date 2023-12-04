@@ -16,8 +16,8 @@ storage_client = storage.Client()
 bucket = storage_client.bucket(constants.DEFAULT_BUCKET_NAME)
 
 # Local Testing: Initialize firebase db authentication for local testing, else simply initialize_app()
-cred = credentials.Certificate(constants.FIRESTORE_CREDENTIALS)
-default_app = initialize_app(cred)
+# cred = credentials.Certificate(constants.FIRESTORE_CREDENTIALS)
+default_app = initialize_app()
 
 db = firestore.client()
 
