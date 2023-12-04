@@ -290,13 +290,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://guardiancloud-jt5nilkupq-uc.a.run.app/login",
+							"raw": "https://{{gcloudurl}}/login",
 							"protocol": "https",
 							"host": [
-								"guardiancloud-jt5nilkupq-uc",
-								"a",
-								"run",
-								"app"
+								"{{gcloudurl}}"
 							],
 							"path": [
 								"login"
@@ -334,12 +331,504 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Folder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/newfolder/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/createfolder",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"createfolder"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Folder Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/newfolder/\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/createfolder",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"createfolder"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 01 Dec 2023 04:58:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "Folder created successfully"
+						}
+					]
+				},
+				{
+					"name": "Download getfileurl",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"request\": \"getfileurl\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/download",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"download"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Download getfileurl",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"request\": \"getfileurl\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/download",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"download"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 27 Nov 2023 07:54:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "851"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileurl\": \"https://storage.googleapis.com/guardiancloud/clark/newtest/bread.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=general-access%40guardian-cloud-403702.iam.gserviceaccount.com%2F20231127%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231127T075421Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=947edd989bfed87ec4b46368f2289bbb2bda2d3971cf99ddb1e5d203f802f5ec903b00565025c58ee1089a71325eca8fe661ad9691385a810f02348b7ece3c5d497921978128237da2b55ab8c99182f1a7024f0ad1f195abf1b2921ea6583a6af045396d16f946df34cb93560b814e8f0e7415857f9fc02cf978137a63c4e2c035138d067b839102495294ca6b1e601575b49f9c281a19c3ec9e7480fc099f9acadaab495bc7803847a0d3565dc1ea543a698a57530828d9e12573c90d233236e8aaa5f7b9b5df6b1d454b76bafd44fdc2f19f90f26ff6eed50acdd4ea4dd3034c543b23f107528ef4b1037203384c7fc18d02594d72ac1a195dff3f06084cf3\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"sdiware13\",\r\n    \"filepath\": \"/Lab 4/Lab 4 Report.docx\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcloudurl}}/deletefile",
+							"protocol": "https",
+							"host": [
+								"{{gcloudurl}}"
+							],
+							"path": [
+								"deletefile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download downloadfile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"request\": \"downloadfile\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/download",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"download"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List (hierarchy of pwd)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/\" \r\n    // The filepath should start and end with a slash\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/list",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"list"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List via filepath",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/\" \r\n    // The filepath should start and end with a slash\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/list",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"list"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 27 Nov 2023 08:59:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"files\": [\n        \"bread.jpg\",\n        \"code.txt\"\n    ],\n    \"folders\": [\n        \"Fax\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Folder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcloudurl}}/deletefolder",
+							"protocol": "https",
+							"host": [
+								"{{gcloudurl}}"
+							],
+							"path": [
+								"deletefolder"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete folder example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{gcloudurl}}/deletefolder",
+									"protocol": "https",
+									"host": [
+										"{{gcloudurl}}"
+									],
+									"path": [
+										"deletefolder"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "access-control-allow-origin",
+									"value": "*"
+								},
+								{
+									"key": "X-Cloud-Trace-Context",
+									"value": "c8d23884723944d7986985f87aea2841;o=1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Dec 2023 06:39:21 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Google Frontend"
+								},
+								{
+									"key": "Content-Length",
+									"value": "19"
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+								}
+							],
+							"cookie": [],
+							"body": "Deletion successful"
+						}
+					]
 				}
 			]
 		},
 		{
 			"name": "CRUD",
 			"item": [
+				{
+					"name": "Create Folder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/newfolder/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/createfolder",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"createfolder"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Folder Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/newfolder/\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/createfolder",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"createfolder"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 01 Dec 2023 04:58:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "Folder created successfully"
+						}
+					]
+				},
 				{
 					"name": "Upload",
 					"protocolProfileBehavior": {
@@ -544,34 +1033,6 @@
 					]
 				},
 				{
-					"name": "Download downloadfile",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"request\": \"downloadfile\",\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://localhost:5000/download",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"download"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "List (hierarchy of pwd)",
 					"request": {
 						"method": "POST",
@@ -657,8 +1118,400 @@
 							"body": "{\n    \"files\": [\n        \"bread.jpg\",\n        \"code.txt\"\n    ],\n    \"folders\": [\n        \"Fax\"\n    ]\n}"
 						}
 					]
+				},
+				{
+					"name": "Delete file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"sdiware13\",\r\n    \"filepath\": \"/Lab 4/Lab 4 Report.docx\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcloudurl}}/deletefile",
+							"protocol": "https",
+							"host": [
+								"{{gcloudurl}}"
+							],
+							"path": [
+								"deletefile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Folder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{localhost}}/deletefolder",
+							"protocol": "https",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"deletefolder"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete folder example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/create/\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{gcloudurl}}/deletefolder",
+									"protocol": "https",
+									"host": [
+										"{{gcloudurl}}"
+									],
+									"path": [
+										"deletefolder"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "access-control-allow-origin",
+									"value": "*"
+								},
+								{
+									"key": "X-Cloud-Trace-Context",
+									"value": "c8d23884723944d7986985f87aea2841;o=1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Dec 2023 06:39:21 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Google Frontend"
+								},
+								{
+									"key": "Content-Length",
+									"value": "19"
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+								}
+							],
+							"cookie": [],
+							"body": "Deletion successful"
+						}
+					]
 				}
 			]
+		},
+		{
+			"name": "Sharing",
+			"item": [
+				{
+					"name": "Shareable URL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"useremail\": \"badhepranav@gmail.com\",\r\n    \"owner\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/share",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"share"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Shareable URL",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"useremail\": \"badhepranav@gmail.com\",\r\n    \"owner\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/share",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"share"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Dec 2023 06:21:59 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "80"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"shareable_url\": \"https://guardiancloud-jt5nilkupq-uc.a.run.app/ac9cae05\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get File Access",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"useremail\": \"badhepranav@gmail.com\",\r\n    \"shareable_url\": \"https://guardiancloud-jt5nilkupq-uc.a.run.app/1bd3988b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/getfileaccess",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"getfileaccess"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get File Access",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"useremail\": \"badhepranav@gmail.com\",\r\n    \"shareable_url\": \"https://guardiancloud-jt5nilkupq-uc.a.run.app/ac9cae05\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/getfileaccess",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"getfileaccess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Dec 2023 06:22:17 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "881"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"otp\": \"9733\",\n    \"temporary_signed_url\": \"https://storage.googleapis.com/guardiancloud/clark/newtest/bread.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=general-access%40guardian-cloud-403702.iam.gserviceaccount.com%2F20231204%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231204T062217Z&X-Goog-Expires=120&X-Goog-SignedHeaders=host&X-Goog-Signature=105695199d17b4c93ce434a4a81001670e71b5f096f84e47e1ce5af231843d594f548f169d82e6a4d715f807b4323ca0394d149b3819fcb313067da25b4b6f27e014939291e1376311a7de4f117eb76c1ccb1aa05c3aefbba880f11d14b443b05934e90378223c3e7a721547331bb37a6a36b5a0a689fce4a3c384e9a03135347c69924d53fa1e641876bdc0189c67efe4c33a928ca8f2e6617c04777c4d18420966533b29392f2d6cf88dd8393af6969d22762f880a3040fa3271e8c4bd7a36f7ea91e19edff7912c77c01a0569510b8e40214e3010fb91f11dfa07224c1fa3cbe7b8ae3bdd0fd2b5b514e61a62006596ac87df6d86925ee7e702974d2f8026\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Revoke File Access",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5000/revokefileaccess",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"revokefileaccess"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Revoke File Access",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"clark\",\r\n    \"filepath\": \"/newtest/bread.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5000/revokefileaccess",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"revokefileaccess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.10.8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Dec 2023 06:31:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "File access revoked successfully"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "localhost:5000"
+		},
+		{
+			"key": "gcloudurl",
+			"value": "guardiancloud-jt5nilkupq-uc.a.run.app"
 		}
 	]
 }
