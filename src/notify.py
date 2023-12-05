@@ -1,24 +1,21 @@
-import smtplib, ssl
+import smtplib
+from email.mime.text import MIMEText
 
 def sendEmail(destEmail, otp):
-#     Format for message =>
-    message = f"""\
-Subject: GuardianCloud: One-Time Password
+    subject = "GuardianCloud: One-Time Password"
+    body = f"Use one-time password {otp} to access the file."
+    sender = "guardiancloud123@gmail.com"
+    app_password = "xqdi mbtl dney rpwt"
+    send_email(subject, body, sender, destEmail, app_password)
 
-Use one-time password {otp} to access the file.
 
-This message is sent by GuardianCloud."""
-    try:
-        port = 587  # For SSL
-        password ='guardiancloud=$'
-        smtp_server="smtp-mail.outlook.com"
-        sender_email="curensure@hotmail.com"
-        
-        context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as server:
-            server.starttls(context=context)
-            server.login(sender_email, password)
-            context = ssl.create_default_context()
-            server.sendmail(sender_email, destEmail, message)
-    except Exception as e: 
-        return f'Exception {e} occured while sending the email', 401
+def send_email(subject, body, sender, recipient, password):
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = recipient
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+       print(msg.as_string())
+       smtp_server.login(sender, password)
+       smtp_server.sendmail(sender, recipient, msg.as_string())
+    return "Message sent!"
