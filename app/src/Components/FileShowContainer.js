@@ -111,7 +111,7 @@ function FileShowContainer({ title, id }) {
   };
 
   const handleMenuItemClick = async (option) => {
-    if (option == "Option 3") {
+    if (option === "Option 3") {
       console.log("option3 url:", modifiedUrl + { title }.title + "/");
       try {
         const response = await fetch(

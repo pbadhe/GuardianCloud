@@ -145,15 +145,3 @@ const Button = styled.div`
     background-color: #3b82f6;
   }
 `;
-const CloseIcon = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-
-  svg {
-    cursor: pointer;
-    width: 2rem;
-    height: 2rem;
-    color: white;
-  }
-`;

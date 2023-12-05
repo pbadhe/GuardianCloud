@@ -1,10 +1,10 @@
 // Login.js
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUid, setLogIn, setLogOut } from "../features/user/userSlice";
+import { useDispatch } from "react-redux";
+import { setLogIn, setLogOut } from "../features/user/userSlice";
 import { setBoolean } from "../features/Bool/boolSlice";
 
 const Login = () => {

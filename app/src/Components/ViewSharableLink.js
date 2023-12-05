@@ -3,13 +3,11 @@ import { selectViewLinkBool, setBoolean } from "../features/Bool/boolSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Close } from "@mui/icons-material";
-import { Button } from "@mui/material";
 
 function ViewSharableLink() {
   const [sharableLink, setSharableLink] = useState(null);
   const [showLink, setShowLink] = useState(null);
   const [email, setEmail] = useState(null);
-  const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
   const [error1, setError1] = useState(null);
   const viewLinkBool = useSelector(selectViewLinkBool);
@@ -130,9 +128,7 @@ function ViewSharableLink() {
           <button className="close" onClick={{ handleclose }}>
             Close
           </button>
-          <button onClick={Submit} disabled={loading}>
-            Submit
-          </button>
+          <button onClick={Submit}>Submit</button>
         </ButtonContainer>
       </Wrapper>
     </Container>
@@ -245,20 +241,6 @@ const ButtonContainer = styled.div`
     background-color: #c70039 !important;
     color: #060606;
     margin-right: 10px !important;
-  }
-`;
-
-const CameraContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-
-  .MuiSvgIcon-root {
-    width: 2.5rem !important;
-    height: 2.5rem;
-    color: rgba(0, 0, 0, 0.5);
-    cursor: pointer;
   }
 `;
 
