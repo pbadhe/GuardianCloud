@@ -270,8 +270,7 @@ def revokefileaccess():
 
 @app.route('/getuserdetails', methods=['POST'])
 def getuserdetails():
-     if request.json['request'] == "getusername":
-        return get_user_details(db,request)
+    return get_user_details(db,request)
 
 
 @app.route('/deletefile', methods=['POST'])
