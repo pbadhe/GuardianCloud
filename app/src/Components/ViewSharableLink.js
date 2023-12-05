@@ -30,6 +30,7 @@ function ViewSharableLink() {
       setSharableLink("");
       setEmail("");
       setenteredOtp("");
+      setError("");
     } else {
       console.log("Error");
       setError1("Entered OTP does not match try sending OTP again");
@@ -63,11 +64,14 @@ function ViewSharableLink() {
 
         setShowLink(data.temporary_signed_url);
       } else {
-        console.log("Error occured during API call.");
+        const data = await response.json();
+        setError(data.message);
+        setSharableLink("");
+        setEmail("");
+        setenteredOtp("");
       }
     } catch (error) {
       console.error("Error during login:", error);
-      setError("OTP or sharable link is wrong");
     }
   };
 
@@ -76,12 +80,13 @@ function ViewSharableLink() {
     setSharableLink("");
     setEmail("");
     setenteredOtp("");
+    setError("");
   };
 
   return (
     <Container show={viewLinkBool}>
       <CloseIcon>
-        <Close onClick={() => dispatch(setBoolean({ viewLink: false }))} />
+        <Close onClick={handleclose} />
       </CloseIcon>
       <Wrapper>
         <div>
@@ -151,7 +156,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.form`
-  height: 450px;
+  height: 500px;
   width: 450px;
   background-color: white;
   border-radius: 20px;

@@ -144,6 +144,35 @@ function FileShowContainer({ title, id }) {
           filepath: modifiedUrl + { title }.title,
         })
       );
+    } else if (option === "Option 2") {
+      console.log("Option 2");
+      console.log("Uid", uid);
+      console.log("url", modifiedUrl + { title }.title);
+      try {
+        const response = await fetch(
+          "https://guardiancloud-jt5nilkupq-uc.a.run.app/revokefileaccess",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: uid,
+              filepath: modifiedUrl + { title }.title,
+            }),
+          }
+        );
+        if (response.ok) {
+          // Optionally, set the new tab's title
+          dispatch(setDrive({ timestamp: new Date().getTime() }));
+          const data = await response.json();
+          alert(data.message);
+        } else {
+          console.log("Not able to delete the folder");
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
     }
 
     // Close the context menu

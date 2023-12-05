@@ -46,3 +46,16 @@
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
+
+.viewlink {
+  cursor: pointer;
+  color: #007bff;
+  font-weight: bold;
+  padding-right: 10px;
+  border-right: 2px solid black;
+}
+
+.viewlink:hover {
+  text-decoration: underline;
+  color: black !important;
+}
