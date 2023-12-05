@@ -16,7 +16,7 @@ function Drive() {
   const [files, setFiles] = useState([]);
   const uid = useSelector(selectUid);
   const timestamp = useSelector(selectDrive);
-
+  const [foldername, setfoldername] = useState(null);
   const location = useLocation();
   const currentURL = location.pathname.replace("/drive", "");
 
@@ -56,6 +56,9 @@ function Drive() {
 
   useEffect(() => {
     fetchData();
+    const pathSegments = currentURL.split("/");
+    const lastSegment = pathSegments.filter((segment) => segment !== "").pop();
+    setfoldername(lastSegment);
   }, [uid, location]);
 
   return (
@@ -64,7 +67,7 @@ function Drive() {
         dispatch(setBoolean({ modelBools: false }));
       }}>
       <Title>
-        <span>My Guardian</span>
+        {foldername ? <span>{foldername}</span> : <span>My Guardian</span>}
         <ArrowDropDownIcon />
       </Title>
       <FileContent>

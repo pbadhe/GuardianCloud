@@ -145,22 +145,6 @@ const ImageContainer = styled.div`
   }
 `;
 
-const TextContainer = styled.div`
-  border-bottom: 1px solid black;
-  margin: 0 20px;
-  margin-top: 27px;
-  input {
-    display: flex;
-    border: none;
-    font-size: 18px;
-    width: 100%;
-    border: none;
-    :focus {
-      outline: none;
-    }
-  }
-`;
-
 const ButtonContainer = styled.div`
   position: absolute;
   bottom: 30px;

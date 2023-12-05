@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   selectEmailBool,
   selectFilepath,
-  setBoolean,
   setEnterEmail,
 } from "../features/Bool/boolSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -237,20 +236,6 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const CameraContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-
-  .MuiSvgIcon-root {
-    width: 2.5rem !important;
-    height: 2.5rem;
-    color: rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-  }
-`;
-
 const CloseIcon = styled.div`
   position: absolute;
   top: 10px;
@@ -261,30 +246,5 @@ const CloseIcon = styled.div`
     width: 2rem;
     height: 2rem;
     color: white;
-  }
-`;
-
-const CopyButton = styled.button`
-  margin-top: 10px;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 /0.05);
-  background-color: #4caf50; // You can adjust the color as needed
-  color: white;
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-right: 8px;
-  }
-
-  :hover {
-    background-color: #45a049; // Adjust the hover color
-  }
-
-  :active {
-    transform: scale(1.1);
   }
 `;

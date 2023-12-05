@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AppsIcon from "@mui/icons-material/Apps";
 import { Avatar } from "@mui/material";
 import "./Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUid, setLogOut } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { setBoolean } from "../features/Bool/boolSlice";
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const uid = useSelector(selectUid);
+  const [name, setname] = useState(null);
 
   const handleLogoutClick = () => {
     dispatch(setLogOut({ uid: null }));
     navigate("/");
   };
+
+  const handleLogoutClic = async () => {
+    try {
+      const response = await fetch(
+        "https://guardiancloud-jt5nilkupq-uc.a.run.app/getuserdetails",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: uid,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setname(data.firstname);
+      } else {
+        console.log("In error");
+        // Unsuccessful login, show error message
+      }
+    } catch (error) {
+      console.log("In error");
+      console.error("Error during login:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleLogoutClic(); // Call handleLogoutClic when the component mounts
+  });
 
   return (
     <Container>
@@ -36,11 +68,18 @@ function Header() {
         </InputContiner>
         <RightContainer>
           <LeftSection>
-            <HelpOutlineIcon />
-            <SettingsIcon />
+            {/* <HelpOutlineIcon />
+            <SettingsIcon /> */}
+            <div
+              className="viewlink"
+              onClick={() => dispatch(setBoolean({ viewLink: true }))}>
+              View Shared Link{" "}
+            </div>
           </LeftSection>
           <RightSection>
-            <AppsIcon className="app" />
+            <div className="name_class">
+              Welcome, <b>{name}!</b>
+            </div>
             <div className="dropdown">
               <Avatar className=".dropbtn" />
               <div className="dropdown-content">
@@ -144,11 +183,12 @@ const RightSection = styled.div`
   .app {
     margin-right: 15px;
   }
+  .name_class {
+    margin-right: 10px;
+  }
 `;
 
 const LeftSection = styled(RightSection)`
-  margin-right: 40px;
-
   svg {
     margin: 0 10px;
   }

@@ -8,7 +8,6 @@ import { selectUid } from "../features/user/userSlice";
 import { useLocation } from "react-router-dom";
 
 function FileModel() {
-  const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const FileRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -86,14 +85,6 @@ function FileModel() {
           )}
           <input type="file" hidden ref={FileRef} onChange={SelectFiles} />
         </FileContainer>
-        {/* <TextContainer>
-          <input
-            type="text"
-            placeholder="Enter file name"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-        </TextContainer> */}
         <ButtonContainer>
           <button onClick={Submit}>Submit</button>
         </ButtonContainer>
@@ -131,23 +122,6 @@ const FileContainer = styled.div`
   height: 50%;
   margin-bottom: 20px;
   width: 100%;
-`;
-
-const TextContainer = styled.div`
-  border-bottom: 1px solid black;
-  margin: 0 20px;
-  margin-top: 27px;
-  input {
-    display: flex;
-    border: none;
-    font-size: 18px;
-    text-transform: capitalize;
-    width: 100%;
-    border: none;
-    :focus {
-      outline: none;
-    }
-  }
 `;
 
 const ButtonContainer = styled.div`

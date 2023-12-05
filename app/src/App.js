@@ -1,15 +1,5 @@
-import React, { useEffect } from "react";
-//import './App.css';
-import styled from "styled-components";
-import Header from "./Components/Header";
-import {
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import Sidebar from "./Components/Sidebar";
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Drive from "./Components/Drive";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
@@ -18,8 +8,6 @@ import FolderModel from "./Components/FolderModel";
 import PhotoModel from "./Components/PhotoModel";
 import PhotoDisplay from "./Components/photoDisplay";
 import { Layout } from "./Layout/Layout";
-import { useSelector } from "react-redux";
-import { selectUid } from "./features/user/userSlice";
 import FileModel from "./Components/FileModel";
 import ViewSharableLink from "./Components/ViewSharableLink";
 import ViewEnterEmailShare from "./Components/ViewEnterEmailShare";
@@ -45,22 +33,4 @@ function App() {
   );
 }
 
-// function DriveComponent() {
-//   const location = useLocation();
-
-//   return (
-//     <>
-//       {location.pathname === "/drive" && <Header />}
-//       <Container>
-//         <Sidebar />
-//         <Drive />
-//       </Container>
-//     </>
-//   );
-// }
-
 export default App;
-
-const Container = styled.div`
-  display: flex;
-`;
