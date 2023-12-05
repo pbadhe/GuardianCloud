@@ -225,7 +225,7 @@ def getfileaccess():
             
             if shareddoc:
                 if shareddoc["useremail"] != request.json['useremail']:
-                    return "You don't have access to this file", 401
+                    return jsonify({"message":"You don't have access to this file"}), 401
                 
                 sendEmail(shareddoc["useremail"], otp)
                 blob = bucket.blob(shareddoc["absfilepath"])
@@ -233,7 +233,7 @@ def getfileaccess():
 
                 return jsonify({"temporary_signed_url": signedurl, "otp": str(otp)}), 200
             else:
-                return f"Link Not Found, {request.json['shareable_url']}", 400
+                return jsonify({"message":f"Link Not Found, {request.json['shareable_url']}"}), 404
 
         except Exception as e:
             return f"Exception occured, {str(e)}", 400
@@ -261,9 +261,9 @@ def revokefileaccess():
                 doc.reference.delete()
             
             if docs_count == 0:
-                return f"File sharing is off for {request.json['filepath'] }", 200
+                return jsonify({"message":f"File sharing is off for {request.json['filepath'] }"}), 200
 
-            return "File access revoked successfully", 200
+            return jsonify({"message":f"File access revoked successfully"}), 200
         except Exception as e:
             return f"Exception occured, {str(e)}", 400
 
