@@ -5,6 +5,7 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUid, setLogIn, setLogOut } from "../features/user/userSlice";
+import { setBoolean } from "../features/Bool/boolSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -66,9 +67,16 @@ const Login = () => {
         <div className="logo">
           <img src="img/gurdian cloud white.png" alt="Your App Logo" />
         </div>
-        <button className="signup-button" onClick={handleSignupClick}>
-          Sign Up
-        </button>
+        <div className="rightSection">
+          <div
+            className="viewlink"
+            onClick={() => dispatch(setBoolean({ viewLink: true }))}>
+            View Shared Link{" "}
+          </div>
+          <button className="signup-button" onClick={handleSignupClick}>
+            Sign Up
+          </button>
+        </div>
       </nav>
       <div className="login-box">
         <h2>Login</h2>

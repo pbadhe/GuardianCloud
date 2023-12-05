@@ -21,6 +21,8 @@ import { Layout } from "./Layout/Layout";
 import { useSelector } from "react-redux";
 import { selectUid } from "./features/user/userSlice";
 import FileModel from "./Components/FileModel";
+import ViewSharableLink from "./Components/ViewSharableLink";
+import ViewEnterEmailShare from "./Components/ViewEnterEmailShare";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <FolderModel />
         <PhotoDisplay />
         <FileModel />
+        <ViewSharableLink />
+        <ViewEnterEmailShare />
       </Layout>
     </Router>
   );

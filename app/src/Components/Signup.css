@@ -95,3 +95,19 @@ button:hover {
   margin-top: 5px; /* Adjust margin for spacing if needed */
   font-weight: bold; /* Make the error message bold */
 }
+
+.rightSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.viewlink {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.viewlink:hover {
+  text-decoration: underline;
+  color: #007bff;
+}

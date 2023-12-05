@@ -192,8 +192,8 @@ def share_file_with():
             db.collection(u'Sharedfiles').document(temp_suffix).set(
                 {"useremail": email, "absfilepath": absfilepath}
             )
-        except:
-            return "Exception occured, check service logs", 400
+        except Exception as e:
+            return f"Exception occured, {str(e)}", 400
         
         return jsonify({"shareable_url":constants.GCLOUD_BASE_URL + temp_suffix}), 200  #shareable URL
         
@@ -222,6 +222,7 @@ def getfileaccess():
 
         try:
             shareddoc = db.collection(u'Sharedfiles').document(temp_suffix).get().to_dict()
+            
             if shareddoc:
                 if shareddoc["useremail"] != request.json['useremail']:
                     return "You don't have access to this file", 401
@@ -231,6 +232,9 @@ def getfileaccess():
                 signedurl = get_signed_url(blob)
 
                 return jsonify({"temporary_signed_url": signedurl, "otp": str(otp)}), 200
+            else:
+                return f"Link Not Found, {request.json['shareable_url']}", 400
+
         except Exception as e:
             return f"Exception occured, {str(e)}", 400
         
@@ -251,15 +255,17 @@ def revokefileaccess():
         try:
             docs = db.collection('Sharedfiles').where('absfilepath', '==', absfilepath).stream()
 
+            docs_count = 0
             for doc in docs:
+                docs_count += 1
                 doc.reference.delete()
             
+            if docs_count == 0:
+                return f"File sharing is off for {request.json['filepath'] }", 200
+
             return "File access revoked successfully", 200
         except Exception as e:
             return f"Exception occured, {str(e)}", 400
-        
-    else:
-        return "POST request expeceted", 400
 
 
 @app.route('/getuserdetails', methods=['POST'])

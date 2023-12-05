@@ -75,7 +75,7 @@ function FileContainer({ title }) {
   };
 
   const handleMenuItemClick = async (option) => {
-    if (option == "Option 3") {
+    if (option === "Option 3") {
       console.log("option3 url:", modifiedUrl + { title }.title + "/");
       try {
         const response = await fetch(
@@ -128,8 +128,6 @@ function FileContainer({ title }) {
             left: contextMenuPosition.left,
           }}
           ref={contextMenuRef}>
-          <div onClick={() => handleMenuItemClick("Option 1")}>Secure</div>
-          <div onClick={() => handleMenuItemClick("Option 2")}>Update</div>
           <div onClick={() => handleMenuItemClick("Option 3")}>Delete</div>
         </div>
       )}
@@ -148,6 +146,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.35);
   border-radius: 4px;
   margin-bottom: 10px;
+  cursor: pointer;
 
   svg {
     height: 28px;
