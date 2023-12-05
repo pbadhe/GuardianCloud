@@ -1,10 +1,10 @@
-import datetime
-import os, constants
+import datetime, math, random, os, constants, uuid
 from flask import Flask, Response, request, jsonify, render_template, send_file
 from flask_cors import CORS 
 from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import storage
 from login import login, userExists, createUser,get_user_details
+from notify import sendEmail
 from google.cloud.exceptions import NotFound
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ cred = credentials.Certificate(constants.FIRESTORE_CREDENTIALS)
 default_app = initialize_app(cred)
 
 db = firestore.client()
+
 
 @app.route('/createfolder', methods=['POST'])
 def createfolder():
@@ -46,6 +47,7 @@ def createfolder():
     else:
         return 'POST request expected', 400
 
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
@@ -70,11 +72,12 @@ def upload_file():
             blob = bucket.blob(str(username + filepath))
             blob.upload_from_string(file.read())
         except Exception as e:
-            print(e)
+            return "Error occured"+str(e), 400
 
         return 'File uploaded successfully', 200
     else:
         return 'POST request expected', 400
+
 
 @app.route('/list', methods=['POST'])
 def downloadfiles():
@@ -102,26 +105,28 @@ def downloadfiles():
             folders.append(str(prefix).split("/")[-2])
         
         return jsonify({"files":files, "folders":folders}), 200
-        
+
+def get_signed_url(blob):
+    return blob.generate_signed_url(
+                version="v4",
+                expiration=datetime.datetime.utcnow() + datetime.timedelta(seconds=120),
+                method="GET"
+            )
+
 
 @app.route('/download', methods=['POST'])
 def download_file():
     if request.method == 'POST':
-        blob = bucket.blob(str(request.json.get('username') + request.json.get('filepath')))
-
         # {
         #   "request": "getfileurl"
         #   "username": "clark", 
         #   "filepath": "/newtest/bread.jpg" 
         # }
         # Generates a temporary signed URL for downloading a file.
+        blob = bucket.blob(str(request.json.get('username') + request.json.get('filepath')))
         if request.json['request'] == 'getfileurl':
             try:
-                url = blob.generate_signed_url(
-                version="v4",
-                expiration=datetime.timedelta(minutes=15),
-                method="GET",
-            )
+                url = get_signed_url(blob)
             except Exception as e:
                 print(e)
             return jsonify({"fileurl": url}), 200
@@ -131,7 +136,6 @@ def download_file():
         #   "username": "clark", 
         #   "filepath": "/newtest/bread.jpg" 
         # }
-        # TODO download as octet-stream or just give bytedata? 
         if request.json['request'] == 'downloadfile':
             if blob.exists():
                 file_contents = blob.download_as_bytes()
@@ -172,10 +176,97 @@ def login1():
             return createUser(db, request.json)
 
 
+@app.route('/share', methods=['POST'])
+def share_file_with():
+    '''Return a shareble URL without confidential details'''
+    if request.method == 'POST':
+        # {
+        #   "useremail": "bruce@wayne.com", 
+        #   "owner": "clark",
+        #   "filepath": "/newtest/bread.jpg" 
+        # }
+        absfilepath = request.json['owner'] + request.json['filepath']  
+        temp_suffix = str(uuid.uuid4())[:8]
+        email = request.json['useremail']
+        try:
+            db.collection(u'Sharedfiles').document(temp_suffix).set(
+                {"useremail": email, "absfilepath": absfilepath}
+            )
+        except:
+            return "Exception occured, check service logs", 400
+        
+        return jsonify({"shareable_url":constants.GCLOUD_BASE_URL + temp_suffix}), 200  #shareable URL
+        
+    else:
+        return "POST request expeceted", 400
+    
+
+def generateOTP():
+    digits = "0123456789"
+    OTP = ""
+    for _ in range(4):
+        OTP += digits[math.floor(random.random() * 10)]
+    return OTP
+
+
+@app.route('/getfileaccess', methods=['POST'])
+def getfileaccess():
+    '''Returns a temporary URL & an email OTP to be verified'''
+    if request.method == 'POST':
+        # {
+        #   "useremail": "bruce@wayne.com", 
+        #   "shareable_url": "https://guardiancloud-jt5nilkupq-uc.a.run.app/12c34066" 
+        # }
+        temp_suffix = request.json['shareable_url'].split("/")[-1] 
+        otp = generateOTP()
+
+        try:
+            shareddoc = db.collection(u'Sharedfiles').document(temp_suffix).get().to_dict()
+            if shareddoc:
+                if shareddoc["useremail"] != request.json['useremail']:
+                    return "You don't have access to this file", 401
+                
+                sendEmail(shareddoc["useremail"], otp)
+                blob = bucket.blob(shareddoc["absfilepath"])
+                signedurl = get_signed_url(blob)
+
+                return jsonify({"temporary_signed_url": signedurl, "otp": str(otp)}), 200
+        except Exception as e:
+            return f"Exception occured, {str(e)}", 400
+        
+    else:
+        return "POST request expeceted", 400
+
+
+@app.route('/revokefileaccess', methods=['POST'])
+def revokefileaccess():
+    if request.method == 'POST':
+        # {
+        #   "username": "clark", 
+        #   "filepath": "/newtest/bread.jpg" 
+        # }
+         
+        absfilepath =  request.json['username'] + request.json['filepath']  
+        
+        try:
+            docs = db.collection('Sharedfiles').where('absfilepath', '==', absfilepath).stream()
+
+            for doc in docs:
+                doc.reference.delete()
+            
+            return "File access revoked successfully", 200
+        except Exception as e:
+            return f"Exception occured, {str(e)}", 400
+        
+    else:
+        return "POST request expeceted", 400
+
+
 @app.route('/getuserdetails', methods=['POST'])
 def getuserdetails():
      if request.json['request'] == "getusername":
         return get_user_details(db,request)
+
 
 @app.route('/deletefile', methods=['POST'])
 def delete_file_or_folder():
@@ -187,26 +278,19 @@ def delete_file_or_folder():
         # }
 
         try:
-            # Construct the full path to the file or folder
             full_path = str(request.json.get('username') + request.json.get('filepath'))
-            
-            # Check if the file or folder exists
             blob = bucket.blob(full_path)
             if not blob.exists():
                 return 'File or folder not found', 404
-
-            # Delete the file or folder
             blob.delete()
 
             return 'File or folder deleted successfully', 200
 
         except NotFound:
             return 'File or folder not found', 404
-        except Exception as e:
-            print(e)
-            return 'Error deleting file or folder', 500
     else:
         return 'POST request expected', 400
+
 
 @app.route('/deletefolder', methods=['POST'])
 def deletefilesrecursive():
@@ -225,7 +309,6 @@ def deletefilesrecursive():
             return "Error! Check the passed username and filepath", 404
             
     return "Deletion successful", 200 
-
 
 
 @app.route('/',methods=['GET', 'POST'])
