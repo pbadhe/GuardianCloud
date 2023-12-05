@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { selectUid } from "../features/user/userSlice";
 import { useEffect, useRef, useState } from "react";
 import { setDrive } from "../features/DriveState/DriveState";
+import { setEnterEmail } from "../features/Bool/boolSlice";
 
 function FileShowContainer({ title, id }) {
   const location = useLocation();
@@ -135,6 +136,14 @@ function FileShowContainer({ title, id }) {
       } catch (error) {
         console.error("Error during login:", error);
       }
+    } else if (option === "Option 1") {
+      //console.log("in otion 1");
+      dispatch(
+        setEnterEmail({
+          enteremail: true,
+          filepath: modifiedUrl + { title }.title,
+        })
+      );
     }
 
     // Close the context menu
@@ -156,8 +165,8 @@ function FileShowContainer({ title, id }) {
             left: contextMenuPosition.left,
           }}
           ref={contextMenuRef}>
-          <div onClick={() => handleMenuItemClick("Option 1")}>Secure</div>
-          <div onClick={() => handleMenuItemClick("Option 2")}>Update</div>
+          <div onClick={() => handleMenuItemClick("Option 1")}>Share</div>
+          <div onClick={() => handleMenuItemClick("Option 2")}>Revoke</div>
           <div onClick={() => handleMenuItemClick("Option 3")}>Delete</div>
         </div>
       )}
@@ -176,6 +185,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.35);
   border-radius: 4px;
   margin-bottom: 10px;
+  cursor: pointer;
 
   svg {
     height: 24px;

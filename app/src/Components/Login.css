@@ -89,3 +89,19 @@ button {
 button:hover {
   background-color: #0056b3; /* Darker blue color on hover */
 }
+
+.rightSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.viewlink {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.viewlink:hover {
+  text-decoration: underline;
+  color: #007bff;
+}

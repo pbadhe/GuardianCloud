@@ -111,9 +111,12 @@ const Signup = () => {
         <div className="logo">
           <img src="img/gurdian cloud white.png" alt="Your App Logo" />
         </div>
-        <button className="signup-button" onClick={handleLoginClick}>
-          Login
-        </button>
+        <div className="rightSection">
+          <div className="viewlink">View Shared Link </div>
+          <button className="signup-button" onClick={handleLoginClick}>
+            Login
+          </button>
+        </div>
       </nav>
       <div className="login-box">
         <h2>Sign Up </h2>

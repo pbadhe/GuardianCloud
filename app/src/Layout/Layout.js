@@ -9,7 +9,9 @@ export const Layout = (props) => {
     <>
       <Header />
       <Container>
-        {location.pathname !== "/" && <Sidebar />}
+        {location.pathname !== "/" && location.pathname !== "/signup" && (
+          <Sidebar />
+        )}
         {[props.children]}
       </Container>
       ;
