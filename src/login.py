@@ -54,7 +54,7 @@ def get_user_details(db,request):
         user_details = get_user_details_from_db(db,username)
 
         if user_details:
-            return jsonify({"success": True, "user_details": user_details}), 200
+            return jsonify({"success": True, **user_details}), 200
         else:
             return jsonify({"success": False, "message": "User not found"}), 404
     else:
@@ -68,7 +68,8 @@ def get_user_details_from_db(db,username):
     if user_data.exists:
         user_details = {
             "username": user_data.get("username"),
-            "email": user_data.get("email")
+            "email": user_data.get("email"),
+            "firstname": user_data.get("name").split(" ")[0],
         }
         return user_details
     else:
