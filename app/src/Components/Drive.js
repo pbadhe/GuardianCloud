@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import FileList from "./FileList";
 import FileContainer from "./FileContainer";
 import FileShowContainer from "./FileShowContainer";
 import { useDispatch, useSelector } from "react-redux";
