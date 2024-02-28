@@ -70,6 +70,8 @@ def upload_file():
         file = request.files.get(filename)
         try:
             blob = bucket.blob(str(username + filepath))
+            if filename.split(".")[-1] == "pdf":
+                blob.content_type = "application/pdf"
             blob.upload_from_string(file.read())
         except Exception as e:
             return "Error occured"+str(e), 400
